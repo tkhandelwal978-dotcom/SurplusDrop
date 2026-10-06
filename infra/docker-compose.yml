@@ -1,0 +1,47 @@
+# Local development services for SurplusDrop.
+# Start: pnpm infra:up    Stop: pnpm infra:down
+name: surplusdrop
+
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    container_name: sd-postgres
+    environment:
+      POSTGRES_USER: surplusdrop
+      POSTGRES_PASSWORD: surplusdrop
+      POSTGRES_DB: surplusdrop
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U surplusdrop -d surplusdrop"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: sd-redis
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: sd-mailpit
+    ports:
+      - "1025:1025"   # SMTP: the app sends emails here
+      - "8025:8025"   # Web inbox: open http://localhost:8025
+
+volumes:
+  pgdata:
+  redisdata:
