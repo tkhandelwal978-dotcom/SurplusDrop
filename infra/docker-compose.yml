@@ -1,5 +1,7 @@
 # Local development services for SurplusDrop.
 # Start: pnpm infra:up    Stop: pnpm infra:down
+# Wipe all local data and re-run sql/ init scripts: pnpm infra:reset
+# Ports bind to 127.0.0.1 so these password-less dev services are not reachable from the LAN.
 name: surplusdrop
 
 services:
@@ -11,10 +13,11 @@ services:
       POSTGRES_PASSWORD: surplusdrop
       POSTGRES_DB: surplusdrop
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./sql:/docker-entrypoint-initdb.d:ro
+      # Mount the file, not the folder: a folder mount would hide the image's own PostGIS init script.
+      - ./sql/01-init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U surplusdrop -d surplusdrop"]
       interval: 5s
@@ -26,7 +29,7 @@ services:
     container_name: sd-redis
     command: ["redis-server", "--appendonly", "yes"]
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6379:6379"
     volumes:
       - redisdata:/data
     healthcheck:
@@ -36,11 +39,16 @@ services:
       retries: 10
 
   mailpit:
-    image: axllent/mailpit:latest
+    image: axllent/mailpit:v1.31.4
     container_name: sd-mailpit
     ports:
-      - "1025:1025"   # SMTP: the app sends emails here
-      - "8025:8025"   # Web inbox: open http://localhost:8025
+      - "127.0.0.1:1025:1025"   # SMTP: the app sends emails here
+      - "127.0.0.1:8025:8025"   # Web inbox: open http://localhost:8025
+    healthcheck:
+      test: ["CMD", "/mailpit", "readyz"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
 
 volumes:
   pgdata:
