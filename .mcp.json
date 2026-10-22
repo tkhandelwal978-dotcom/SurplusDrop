@@ -1,12 +1,12 @@
 {
   "mcpServers": {
     "context7": {
-      "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp"]
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@upstash/context7-mcp"]
     },
     "playwright": {
-      "command": "npx",
-      "args": ["-y", "@playwright/mcp@latest"]
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@playwright/mcp@latest"]
     },
     "github": {
       "type": "http",
@@ -14,12 +14,12 @@
       "headers": { "Authorization": "Bearer ${GITHUB_PAT}" }
     },
     "postgres-local": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-postgres", "${LOCAL_DB_READONLY_URL}"]
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@modelcontextprotocol/server-postgres", "${LOCAL_DB_READONLY_URL}"]
     },
     "stitch": {
-      "command": "npx",
-      "args": ["-y", "@_davideast/stitch-mcp", "proxy"],
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@_davideast/stitch-mcp", "proxy"],
       "env": { "STITCH_API_KEY": "${STITCH_API_KEY}" }
     }
   }
