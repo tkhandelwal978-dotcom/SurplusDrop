@@ -13,8 +13,9 @@ const status = run('git', ['status', '--porcelain', '--', '*.ts', '*.tsx']);
 if (!status.stdout?.trim()) process.exit(0);
 
 const tail = (s, n) => (s || '').split('\n').slice(-n).join('\n');
-const tc = run('pnpm', ['-s', 'typecheck']);
+// pnpm 12 removed the `-s` short flag; `--silent` works on every pnpm version.
+const tc = run('pnpm', ['--silent', 'typecheck']);
 if (tc.status !== 0) block('Typecheck failed. Fix these errors before finishing:\n' + tail(tc.stdout + tc.stderr, 40));
-const ut = run('pnpm', ['-s', 'turbo', 'run', 'test:unit', '--affected']);
+const ut = run('pnpm', ['--silent', 'turbo', 'run', 'test:unit', '--affected']);
 if (ut.status !== 0) block('Unit tests failed. Fix them (never skip or weaken tests) before finishing:\n' + tail(ut.stdout + ut.stderr, 60));
 process.exit(0);

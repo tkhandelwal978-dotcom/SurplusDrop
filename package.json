@@ -1,7 +1,12 @@
 {
   "name": "surplusdrop",
   "private": true,
+  "type": "module",
   "packageManager": "pnpm@12.6.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "prettier": "@surplusdrop/config/prettier",
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
@@ -17,5 +22,12 @@
     "db:generate": "pnpm --filter @surplusdrop/db generate",
     "db:migrate": "pnpm --filter @surplusdrop/db migrate",
     "db:seed": "pnpm --filter @surplusdrop/db seed"
+  },
+  "devDependencies": {
+    "@surplusdrop/config": "workspace:*",
+    "eslint": "^10.13.0",
+    "prettier": "^3.9.10",
+    "turbo": "^2.11.10",
+    "typescript": "~6.0.3"
   }
 }
