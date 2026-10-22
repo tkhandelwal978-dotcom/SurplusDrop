@@ -13,6 +13,7 @@
     "format": "prettier --write .",
     "infra:up": "docker compose -f infra/docker-compose.yml up -d",
     "infra:down": "docker compose -f infra/docker-compose.yml down",
+    "infra:reset": "docker compose -f infra/docker-compose.yml down -v && pnpm infra:up",
     "db:generate": "pnpm --filter @surplusdrop/db generate",
     "db:migrate": "pnpm --filter @surplusdrop/db migrate",
     "db:seed": "pnpm --filter @surplusdrop/db seed"
