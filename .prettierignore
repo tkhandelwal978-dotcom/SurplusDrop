@@ -1,4 +1,7 @@
+# Written by tools; formatting them only creates churn when the tool rewrites them.
 pnpm-lock.yaml
+pnpm-workspace.yaml
+packages/db/migrations/meta
 **/dist
 **/coverage
 **/.turbo
