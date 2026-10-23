@@ -1,0 +1,72 @@
+/*
+ * SurplusDrop design tokens for Tailwind v4. Values come from /DESIGN.md (template seeded from the
+ * SRS); replace them when the Stitch design is extracted, and keep DESIGN.md and this file in sync.
+ *
+ * How it works: `@theme` turns each token into Tailwind utilities (bg-brand-700, text-ink,
+ * rounded-card, ...). Colours point at --sd-* variables, which switch for dark mode below, so
+ * components never need `dark:` classes for colour.
+ */
+
+@theme {
+  /* Only design-system colours exist: Tailwind's default palette is removed on purpose. */
+  --color-*: initial;
+  --color-brand-700: var(--sd-brand-700);
+  --color-brand-50: var(--sd-brand-50);
+  --color-accent-500: var(--sd-accent-500);
+  --color-success: var(--sd-success);
+  --color-danger: var(--sd-danger);
+  --color-ink: var(--sd-ink);
+  --color-muted: var(--sd-muted);
+  --color-surface: var(--sd-surface);
+  --color-canvas: var(--sd-canvas);
+
+  --font-sans: 'Inter Variable', Inter, ui-sans-serif, system-ui, sans-serif;
+
+  /* Type scale 12 / 14 / 16 (body) / 20 / 24 / 32 / 40 px. */
+  --text-*: initial;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --text-4xl: 2.5rem;
+
+  /* 4 px spacing grid: p-1 = 4px, p-2 = 8px, p-4 = 16px, p-6 = 24px ... */
+  --spacing: 0.25rem;
+
+  /* Radius: 8 inputs, 12 cards, 20 sheets (rounded-full stays for chips and pins). */
+  --radius-*: initial;
+  --radius-input: 0.5rem;
+  --radius-card: 0.75rem;
+  --radius-sheet: 1.25rem;
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+}
+
+:root {
+  color-scheme: light dark;
+  --sd-brand-700: #0f5e56;
+  --sd-brand-50: #e6f2f0;
+  --sd-accent-500: #e8850c;
+  --sd-success: #15803d;
+  --sd-danger: #b42318;
+  --sd-ink: #1c2426;
+  --sd-muted: #5b6b6e;
+  --sd-surface: #ffffff;
+  --sd-canvas: #f6f8f8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sd-brand-700: #5ec2b5;
+    --sd-brand-50: #13302c;
+    --sd-accent-500: #f5a445;
+    --sd-success: #4ade80;
+    --sd-danger: #f87171;
+    --sd-ink: #e7eeee;
+    --sd-muted: #9fb0b2;
+    --sd-surface: #151d1d;
+    --sd-canvas: #0e1414;
+  }
+}
