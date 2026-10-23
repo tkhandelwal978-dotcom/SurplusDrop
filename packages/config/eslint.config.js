@@ -4,6 +4,7 @@ import js from '@eslint/js';
 import prettier from 'eslint-config-prettier';
 import { defineConfig } from 'eslint/config';
 import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig(
@@ -34,6 +35,13 @@ export default defineConfig(
       // Use the Pino logger on the server; console output skips redaction.
       'no-console': 'error',
     },
+  },
+
+  // React: rules of hooks (no hooks inside conditions/loops, complete effect dependencies).
+  {
+    files: ['apps/web/**/*.{ts,tsx}'],
+    extends: [reactHooks.configs.flat['recommended-latest']],
+    languageOptions: { globals: globals.browser },
   },
 
   // Plain JS config files are not part of any tsconfig, so type-aware rules cannot run on them.
